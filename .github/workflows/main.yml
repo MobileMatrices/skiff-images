@@ -1,0 +1,48 @@
+name: Install Packages
+
+on: [push, workflow_dispatch]
+
+jobs:
+    install-packages:
+        runs-on: ubuntu-latest
+
+        steps:
+        - name: Checkout code
+          uses: actions/checkout@v2
+
+        - name: Install packages
+          run: |
+                sudo apt-get update
+                sudo apt-get install -y \
+                    bash \
+                    bc \
+                    binutils \
+                    build-essential \
+                    bzip2 \
+                    cpio \
+                    diffutils \
+                    file \
+                    findutils \
+                    gzip \
+                    libarchive-tools \
+                    libncurses-dev \
+                    make \
+                    patch \
+                    perl \
+                    rsync \
+                    sed \
+                    tar \
+                    unzip \
+                    wget
+        - name: Retrieve Skiff Repo
+          run: |
+                git clone https://github.com/skiffos/SkiffOS.git
+                cd SkiffOS
+                git submodule update
+        - name: Build Skiff
+          run: |
+                make
+                export SKIFF_WORKSPACE=default
+                export SKIFF_CONFIG=pi/4,skiff/core
+                make configure
+                make compile
