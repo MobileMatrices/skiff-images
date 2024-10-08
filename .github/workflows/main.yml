@@ -41,6 +41,7 @@ jobs:
                 git submodule update
         - name: Build Skiff
           run: |
+                cd SkiffOS
                 make
                 export SKIFF_WORKSPACE=default
                 export SKIFF_CONFIG=pi/4,skiff/core
